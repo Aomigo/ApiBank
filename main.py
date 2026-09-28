@@ -1,6 +1,18 @@
 from functions import Is_Sender_Negative
 from functions import Suppr_Virement
 from functions import Define_Price
+from fastapi import FastAPI
+from pydantic import BaseModel 
+
+app = FastAPI() 
+
+class Account(BaseModel):
+    name: str
+    user_id: int
+    solde: int
+
+
+
 compte1Price = 10
 compte2Price = 20
 
