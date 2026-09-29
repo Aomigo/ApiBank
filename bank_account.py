@@ -1,12 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from interface import Account
 
 app = FastAPI()
 
-class Account(BaseModel):
-    name: str
-    id: int
-    solde: int
     
 #for get test
 Kyky = Account(
