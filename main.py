@@ -1,6 +1,4 @@
 from functions import Is_Sender_Negative
-from functions import Suppr_Virement
-from functions import Define_Price
 from fastapi import FastAPI
 from pydantic import BaseModel 
 
@@ -8,32 +6,24 @@ app = FastAPI()
 
 class Account(BaseModel):
     name: str
-    user_id: int
+    id: int
     solde: int
 
 
+Account1 = Account(name="compte1", id=1, solde=100)
+Account2 = Account(name="compte2", id=2, solde=20)
 
-compte1Price = 10
-compte2Price = 20
-
-
-
-def virement(a, b):
-    rawA = a
-    rawB = b
-    price = Define_Price()
+@app.post("/virement/{price}")
+def virement(price:int ,a: Account, b: Account):
+    rawA = a.solde
+    rawB = b.solde
+    #price = Define_Price()
     #fonction pour checker si négatif
-    if Is_Sender_Negative(price, a):
+    print(f"account {a.name} is sending money in account {b.name}")
+    if Is_Sender_Negative(price, a.solde):
         print('error, account a too low, transaction cancelled')
         return
-    a -= price
-    b += price
-    print(a,b)
-    print(f"le compte a : {rawA} => {a} ,et le b : {rawB} => {b}")
-    choice = input("Amount sent, cancel (y/N)?")
-    if choice == "y":
-        Suppr_Virement(price, a, b)
-    return
-
-
-virement(compte1Price, compte2Price)
+    a.solde -= price
+    b.solde += price
+    print(f"le compte a : {rawA} => {a.solde} ,et le b : {rawB} => {b.solde}")
+    return {a.name: a.solde, b.name: b.solde}
