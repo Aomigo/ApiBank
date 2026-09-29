@@ -40,12 +40,21 @@ class Accounts(AccountRepository):
 #requête post
 def MakeTransaction(amount, id1,id2,repository: AccountRepository):
     creditor = repository.getById(id1)
-    reciever = repository.getById(id2)
+    receiver = repository.getById(id2)
 
     creditor.debiter(amount)
-    reciever.crediter(amount)
+    receiver.crediter(amount)
+    repository.save(receiver)
+    repository.save(creditor)
 
     return
 
+
+def MakeDeposit(amount, id1, repository: AccountRepository):
+    receiver = repository.getById(id1)
+    receiver.crediter(amount)
+    repository.save(receiver)
+    
+    return
 accountInt = Accounts()
 MakeTransaction(30, 1, 2, accountInt)
