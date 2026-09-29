@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from os import name
 
 
 class Account:
+    id:str
     def __init__(self, newname:str, newid:str, newamount:int):
         self.name = newname,
         self.id = newid,
@@ -56,5 +56,3 @@ def MakeDeposit(amount, id1, repository: AccountRepository):
     repository.save(receiver)
     
     return
-accountInt = Accounts()
-MakeTransaction(30, 1, 2, accountInt)
