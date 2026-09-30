@@ -7,6 +7,7 @@ class Account:
         self.name = newname,
         self.id = newid,
         self.balance= Balance(balance)
+        self.opened
 
     def debiter(self, less:int ):
         self.balance= Balance(self.balance.balance - less)
