@@ -1,12 +1,13 @@
 from account import Account
 from repository_interface import AccountRepository
+from balance import Balance
 
 
 class Accounts(AccountRepository):
     accounts = {
-        "1":Account(newname="Kyky", newid="1", newamount=100),
-        "2":Account(newname="Jojo", newid="2", newamount=60),
-        "3":Account(newname="Thotho", newid="3", newamount=25)
+        "1":Account(newname="Kyky", newid="1", balance=100),
+        "2":Account(newname="Jojo", newid="2", balance=60),
+        "3":Account(newname="Thotho", newid="3", balance=25)
     }
 
     def getById(self, id):

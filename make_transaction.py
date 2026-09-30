@@ -1,6 +1,7 @@
 from repository_interface import AccountRepository
 
-def MakeTransaction(amount, id1,id2,repository: AccountRepository):
+
+def MakeTransaction(amount: int, id1: str, id2: str, repository: AccountRepository):
     creditor = repository.getById(id1)
     receiver = repository.getById(id2)
 
@@ -9,4 +10,4 @@ def MakeTransaction(amount, id1,id2,repository: AccountRepository):
     repository.save(receiver)
     repository.save(creditor)
 
-    return
+    return repository.getById(id1).balance.balance

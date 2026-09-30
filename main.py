@@ -10,12 +10,12 @@ Repo = Accounts()
 @app.post("/accounts/{id}/transactions")
 def new_Transaction(id:str):
     MakeTransaction(10,"1","2", Repo)
-    print(Repo.accounts[id])
+  
 
 @app.post("/accounts/{id}/deposit")
 def new_Deposit(id:str):
     MakeDeposit(10,"1", Repo)
-    print(Repo.accounts[id].amount)
+
 
 
 #@app.post("/bank_account/open/{name}")
@@ -24,6 +24,7 @@ def new_Deposit(id:str):
 #    return account
 
 
-#@app.get("/Balance")
-#def get_balance():
+@app.get("/Balance")
+def get_balance():
     return Balance(-1)
+

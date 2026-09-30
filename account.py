@@ -1,13 +1,16 @@
+from balance import Balance
+
+
 class Account:
     id:str
-    def __init__(self, newname:str, newid:str, newamount:int):
+    def __init__(self, newname:str, newid:str , balance:int):
         self.name = newname,
         self.id = newid,
-        self.amount = newamount
+        self.balance= Balance(balance)
 
-    def debiter(self, less:int):
-        self.amount -= less
+    def debiter(self, less:int ):
+        self.balance= Balance(self.balance.balance - less)
         return
-    def crediter(self, amount):
-        self.amount += amount
-        pass
+    def crediter(self, more:int ):
+        self.balance= Balance(self.balance.balance + more)
+        return
