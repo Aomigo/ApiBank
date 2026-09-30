@@ -2,24 +2,24 @@ PRAGMA foreign_keys = ON;
 
 BEGIN TRANSACTION;
 
--- Table user
+-- User table
 CREATE TABLE IF NOT EXISTS user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT NOT NULL UNIQUE,
   pseudo TEXT NOT NULL UNIQUE,
   mdp TEXT NOT NULL,
-  beneficiaries TEXT NOT NULL DEFAULT '[]', -- Liste JSON des IDs/UUIDs des comptes receveurs
+  beneficiaries TEXT NOT NULL DEFAULT '[]', -- Json array of beneficiaries
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Données initiales user
+-- initial data for user table
 INSERT INTO user (id, email, pseudo, mdp, beneficiaries, created_at, updated_at) VALUES
 (1, 'kyky@mail.com', 'Kyky Kyks', 'kykS95@', '[]', '2026-09-30 15:10:24', '2026-09-30 15:10:24'),
 (2, 'jojo@mail.com', 'Jojo Jos', 'jojO95@', '[]', '2026-09-30 15:10:24', '2026-09-30 15:10:24'),
 (3, 'toto@mail.com', 'Toto Tots', 'totO95@', '[]', '2026-09-30 15:10:24', '2026-09-30 15:10:24');
 
--- Table account
+-- Account table
 CREATE TABLE IF NOT EXISTS account (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   pseudo TEXT NOT NULL UNIQUE,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS account (
   uuid TEXT NOT NULL
 );
 
--- Table transaction
+-- Transaction table
 CREATE TABLE IF NOT EXISTS "transaction" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   id_sender INTEGER NOT NULL,

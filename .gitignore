@@ -1,0 +1,6 @@
+# Base de données SQLite locale
+apibank.db
+
+# Python
+__pycache__/
+*.py[cod]
