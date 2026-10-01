@@ -7,7 +7,6 @@ from connect_user_JWT import TryConnectUser
 from in_memory_account_repository import Accounts
 from in_memory_user_repository import Users
 from balance import Balance
-from database import get_save_account
 from user import User
 
 app = FastAPI() 
@@ -74,8 +73,9 @@ class UserCreate(BaseModel):
 @app.post("/User/create/")
 def create_user(user: UserCreate):
     new_user = User(id="", username=user.username, email=user.email, password=user.password)
-    Users().save(new_user)
-    return {"id": new_user.id, "name": new_user.username, "email": new_user.email}
-
+    repo = Users()
+    repo.save(new_user)
+    account_id = repo.create_account(user_id=new_user.id, name=new_user.username)
+    return {"id": new_user.id, "name": new_user.username, "email": new_user.email, "account_id": account_id,"balance": 0}
 
 

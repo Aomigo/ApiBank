@@ -36,3 +36,11 @@ class Users(UserRepository):
         conn.commit()
         conn.close()
         return user
+
+    def create_account(self, user_id: str, name: str):
+        conn = get_db_connection()
+        cursor = conn.execute(""" INSERT INTO account (pseudo, balance, uuid) VALUES (?,?,?)""",(name, 0, user_id))
+        account_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        return account_id
