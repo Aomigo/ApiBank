@@ -8,6 +8,8 @@ def MakeTransaction(amount: int, id1: str, id2: str, ):
 
 
     creditor.debiter(amount)
+
+
     receiver.crediter(amount)
     get_save_account(receiver)
     get_save_account(creditor)
