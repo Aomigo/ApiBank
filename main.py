@@ -19,16 +19,6 @@ Repo = Accounts()
 repo_transaction = InMemoryTransactionRepository()
     
 
-@app.post("/accounts/{id}/transactions")
-def new_Transaction(id: str):
-    result = MakeTransaction(10, "1", "2")
-    return ("result : ", result)
-
-
-@app.post("/accounts/{id}/deposit")
-def new_Deposit(id: str):
-    MakeDeposit(10, "1")
-    return (" OK.")
 
 
 #@app.post("/bank_account/open/{name}")
@@ -43,7 +33,7 @@ def startup():
 
 @app.post("/accounts/{id}/transactions")
 def new_Transaction(id: str):
-    return {"transaction_id": MakeTransaction(10, id, "2", Repo, repo_transaction)}
+    return {"transaction_id": MakeTransaction(50, id, "3", Repo, repo_transaction)}
 
 
 @app.post("/accounts/{id}/deposit")

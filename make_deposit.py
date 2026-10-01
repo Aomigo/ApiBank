@@ -1,12 +1,8 @@
-from database import get_account_bdd , get_save_account
+from repository_interface import AccountRepository
 
-def MakeDeposit(amount, id1):
-    receiver = get_account_bdd(id1)
+
+def MakeDeposit(amount: int, id1: str, repository: AccountRepository):
+    receiver = repository.getById(id1)
     receiver.crediter(amount)
-    get_save_account(receiver)
-
+    repository.save(receiver)
     return receiver.balance.balance
-
-
-
-
