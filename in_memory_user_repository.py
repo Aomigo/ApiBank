@@ -1,3 +1,4 @@
+import uuid
 from user import User
 from user_repository_interface import UserRepository
 from database import get_db_connection
@@ -39,8 +40,8 @@ class Users(UserRepository):
 
     def create_account(self, user_id: str, name: str):
         conn = get_db_connection()
-        cursor = conn.execute(""" INSERT INTO account (pseudo, balance, uuid) VALUES (?,?,?)""",(name, 0, user_id))
-        account_id = cursor.lastrowid
+        account_uuid = str(uuid.uuid4())
+        conn.execute(""" INSERT INTO account (pseudo, balance, uuid) VALUES (?,?,?)""", (name, 0, account_uuid))
         conn.commit()
         conn.close()
-        return account_id
+        return account_uuid

@@ -13,7 +13,10 @@ class Accounts(AccountRepository):
 
     def getById(self, id: str) -> Account:
         conn = get_db_connection()
-        row = conn.execute("SELECT id, pseudo, balance FROM account WHERE id = ?", (str(id),)).fetchone()
+        row = conn.execute(
+            "SELECT id, pseudo, balance FROM account WHERE id = ? OR uuid = ?",
+            (str(id), str(id))
+        ).fetchone()
         conn.close()
         if not row:
             return None
@@ -22,8 +25,12 @@ class Accounts(AccountRepository):
     def save(self, account: Account):
         conn = get_db_connection()
         conn.execute(
-            "UPDATE account SET balance = ? WHERE id = ?",
-            (account.balance.balance, str(account.id))
+            "UPDATE account SET balance = ? WHERE id = ? OR uuid = ?",
+            (account.balance.balance, str(account.id), str(account.id))
         )
         conn.commit()
         conn.close()
+
+
+
+
