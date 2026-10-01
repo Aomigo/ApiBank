@@ -3,20 +3,21 @@ from make_deposit import MakeDeposit
 from make_transaction import MakeTransaction
 from in_memory_account_repository import Accounts
 from balance import Balance
+from database import get_save_account
 
 app = FastAPI()
     
-Repo = Accounts()
+
 @app.post("/accounts/{id}/transactions")
-def new_Transaction(id:str):
-    MakeTransaction(10,"1","2", Repo)
-    
-  
+def new_Transaction(id: str):
+    result = MakeTransaction(10, "1", "2")
+    return ("result : ", result)
+
 
 @app.post("/accounts/{id}/deposit")
-def new_Deposit(id:str):
-    MakeDeposit(10,"1", Repo)
-
+def new_Deposit(id: str):
+    MakeDeposit(10, "1")
+    return (" OK.")
 
 
 #@app.post("/bank_account/open/{name}")

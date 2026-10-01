@@ -29,6 +29,11 @@ CREATE TABLE IF NOT EXISTS account (
   uuid TEXT NOT NULL
 );
 
+-- initial data for account table
+INSERT INTO account (id, pseudo, balance, uuid, created_at, updated_at) VALUES
+(1, 'Kyky Kyks', 100, 'acc-uuid-user-1', '2026-09-30 15:10:24', '2026-09-30 15:10:24'),
+(2, 'Jojo Jos', 60, 'acc-uuid-user-2', '2026-09-30 15:10:24', '2026-09-30 15:10:24');
+
 -- Transaction table
 CREATE TABLE IF NOT EXISTS "transaction" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

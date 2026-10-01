@@ -1,15 +1,16 @@
-from repository_interface import AccountRepository
-import asyncio
+from database import get_account_bdd, get_save_account 
 
 
-def MakeTransaction(amount: int, id1: str, id2: str, repository: AccountRepository):
-    creditor = repository.getById(id1)
-    receiver = repository.getById(id2)
+
+def MakeTransaction(amount: int, id1: str, id2: str, ):
+    creditor = get_account_bdd(id1)
+    receiver = get_account_bdd(id2)
 
 
     creditor.debiter(amount)
     receiver.crediter(amount)
-    repository.save(receiver)
-    repository.save(creditor)
+    get_save_account(receiver)
+    get_save_account(creditor)
 
-    return repository.getById(id1).balance.balance
+    return creditor.balance.balance
+    
