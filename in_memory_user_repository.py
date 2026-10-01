@@ -1,11 +1,38 @@
 from user import User
 from user_repository_interface import UserRepository
+from database import get_db_connection
+
+
+class _UserDict:
+    def __getitem__(self, id: str):
+        return Users().getById(id)
+
 
 class Users(UserRepository):
-    users = {
-        "1":User("1", "Bossu", "bossu@gmail.com", "mqlsdfkj"),
-        "2":User("2", "Jane", "Jane@doe.com", "mqlsdfkj"),
-        "3":User("3", "Dickinson", "Dicking@son.com", "mqlsdfkj")
-    }
+    users = _UserDict()
+
     def getById(self, id: str) -> User:
-        return self.users[id]
+        conn = get_db_connection()
+        row = conn.execute("SELECT id, pseudo, email, mdp FROM user WHERE id = ?", (id,)).fetchone()
+        conn.close()
+        if not row:
+            return None
+        return User(str(row["id"]), row["pseudo"], row["email"], row["mdp"])
+
+    def save(self, user: User):
+        conn = get_db_connection()
+        row = conn.execute("SELECT id FROM user WHERE id = ?", (user.id,)).fetchone()
+        if row:
+            conn.execute(
+                "UPDATE user SET pseudo = ?, email = ?, mdp = ? WHERE id = ?",
+                (user.username, user.email, user.password, user.id)
+            )
+        else:
+            cursor = conn.execute(
+                "INSERT INTO user (pseudo, email, mdp) VALUES (?, ?, ?)",
+                (user.username, user.email, user.password)
+            )
+            user.id = str(cursor.lastrowid)
+        conn.commit()
+        conn.close()
+        return user

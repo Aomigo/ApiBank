@@ -1,7 +1,7 @@
 from account import Account
 from repository_interface import AccountRepository
 from balance import Balance
-from user import User
+
 
 
 class Accounts(AccountRepository):

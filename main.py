@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from pydantic import BaseModel
 from account import Account
 from make_deposit import MakeDeposit
 from make_transaction import MakeTransaction
@@ -8,6 +8,7 @@ from in_memory_account_repository import Accounts
 from in_memory_user_repository import Users
 from balance import Balance
 from database import get_save_account
+from user import User
 
 app = FastAPI() 
     
@@ -34,13 +35,25 @@ def new_Deposit(id: str):
 #def get_balance():
     #return Balance(-1)
 
-#A faire demain, faut JWT sur blackboard
-@app.post("User/connect")
-def connect_User():
+#A faire demain, faut JWT sur blackboard ( Ancien user connect)
+#@app.post("User/connect")
+#def connect_User():
     TryConnectUser()
     return
+#@app.get("/User/{id}/Info")
+#def get_user_info(id:str):
+#    allowed_info = {
+#        "name": Users.users[id].getUsername(),
+#        "email": Users.users[id].getEmail(),
+#    }
+#    return allowed_info
+
+
+@app.post("/User/connect")
+def connect_User():
+    return TryConnectUser()
 @app.get("/User/{id}/Info")
-def get_user_info(id:str):
+def get_user_info(id: str):
     allowed_info = {
         "name": Users.users[id].getUsername(),
         "email": Users.users[id].getEmail(),
@@ -48,9 +61,21 @@ def get_user_info(id:str):
     return allowed_info
 
 
-@app.post("/User/{id}/CreateAccount")
-def create_Account(id:str):
-    return Users.users[id].createAccount("Leugeu",id, 0)
-@app.get("/transaction/{id}")
-def get_transaction(id: str):
-    return repo_transaction.getById(id)
+
+
+from pydantic import BaseModel
+
+
+class UserCreate(BaseModel):
+    username: str
+    email: str
+    password: str
+
+@app.post("/User/create/")
+def create_user(user: UserCreate):
+    new_user = User(id="", username=user.username, email=user.email, password=user.password)
+    Users().save(new_user)
+    return {"id": new_user.id, "name": new_user.username, "email": new_user.email}
+
+
+
