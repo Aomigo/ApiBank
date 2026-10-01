@@ -6,9 +6,7 @@ from interface_transaction import TransactionRepository
 
 class InMemoryTransactionRepository(TransactionRepository):
     transactions = {
-        "1": Transaction(id="1", id_sender="1", id_receiver="2", amount=100, status="completed", emited_at="2023-01-01"),
-        "2": Transaction(id="2", id_sender="2", id_receiver="3", amount=60, status="pending"),
-        "3": Transaction(id="3", id_sender="3", id_receiver="1", amount=25, status="pending")
+        
     }
 
     def getById(self, id: str) -> Transaction:
@@ -17,3 +15,10 @@ class InMemoryTransactionRepository(TransactionRepository):
     def save(self, transaction: Transaction):
         self.transactions[transaction.id] = transaction
         return
+
+    def get_pending_transactions(self):
+        return [
+            transaction
+            for transaction in self.transactions.values()
+            if transaction.status == "pending"
+        ]
