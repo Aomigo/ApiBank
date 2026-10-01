@@ -1,6 +1,7 @@
 from account import Account
 from repository_interface import AccountRepository
 from balance import Balance
+from user import User
 
 
 class Accounts(AccountRepository):
@@ -10,7 +11,7 @@ class Accounts(AccountRepository):
         "3":Account(newname="Thotho", newid="3", balance=25)
     }
 
-    def getById(self, id):
+    def getById(self, id:str) -> Account:
         return self.accounts[id]
     def save(self, account):
         self.accounts[account.id] = account
