@@ -1,6 +1,7 @@
-#1) toutes les secondes demande au repo si la transaction est la depuis plus de 5s pour chaque un d'entre elle ,
-#si plus long que 5s alors complete la transaction
+def complete_transaction(transaction, account_repo, transaction_repo):
+    receiver = account_repo.getById(transaction.id_receiver)
+    receiver.crediter(transaction.amount)
+    account_repo.save(receiver)
 
-
-def complete_transaction():
-    pass
+    transaction.change_to_completed()
+    transaction_repo.save(transaction)
