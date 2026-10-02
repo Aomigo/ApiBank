@@ -9,3 +9,6 @@ class TransactionRepository(ABC):
     @abstractmethod
     def save(self, transaction:Transaction):
         pass
+    @abstractmethod
+    def get_pending_transactions(self):
+        pass
