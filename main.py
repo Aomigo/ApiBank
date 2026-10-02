@@ -18,16 +18,6 @@ app = FastAPI()
 Repo = Accounts()
 repo_transaction = InMemoryTransactionRepository()
 
-#@app.post("/bank_account/open/{name}")
-#def create_account(name: str):
-#    account = account(name=name, solde=0, id=1)
-#    return account
-
-
-#@app.get("/Balance")
-#def get_balance():
-    #return Balance(-1)
-
 @app.on_event("startup")
 def startup():
     threading.Thread(target=poll_pending, args=(Repo, repo_transaction), daemon=True).start()
@@ -67,10 +57,6 @@ def cancel(transaction_id: str):
         raise HTTPException(status_code=400, detail=str(e))
     return {"id": transaction.id, "status": transaction.status}
 
-@app.post("User/connect")
-def connect_User():
-    TryConnectUser()
-    return
 @app.get("/User/{id}/Info")
 def get_user_info(id:str):
     allowed_info = {
