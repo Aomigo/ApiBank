@@ -9,3 +9,6 @@ class Users(UserRepository):
     }
     def getById(self, id: str) -> User:
         return self.users[id]
+    def save(self, user: User):
+        Users.users[user.id] = user
+        return
