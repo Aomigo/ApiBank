@@ -26,6 +26,5 @@ class User:
         repository.save(newAccount)
         return self.accountting
 
-    @staticmethod
-    def getAccount(accountId, repository: AccountRepository):
+    def getAccount(self, accountId, repository: AccountRepository):
         return repository.getById(accountId)

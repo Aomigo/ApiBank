@@ -71,9 +71,11 @@ def create_Account(id:str):
     accId = str(uuid.uuid4())
     return Users.users[id].createAccount("Leugeu", accId, Repo, 0)
 
-@app.get("/Useraccount/{id}/info")
-def get_account_info(id:str):
-    return Users.users[id].getAccount(id, Repo)
+@app.get("/Useraccount/{id}/{accId}/info")
+def get_account_info(id:str, accId: str):
+    if accId not in Users.users[id].accountting:
+        raise HTTPException(status_code=404, detail="User not found")
+    return Users.users[id].getAccount(accId, Repo)
 @app.get("/transaction/{id}")
 def get_transaction(id: str):
     return repo_transaction.getById(id)
