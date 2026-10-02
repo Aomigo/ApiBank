@@ -1,12 +1,13 @@
-from fastapi import FastAPI
+import uuid
+
+from fastapi import FastAPI, Depends, Body, HTTPException
 
 from account import Account
 from make_deposit import MakeDeposit
 from make_transaction import MakeTransaction
-from connect_user_JWT import TryConnectUser
+from connect_user_JWT import generate_token, get_user
 from in_memory_account_repository import Accounts
 from in_memory_user_repository import Users
-from balance import Balance
 from inmemory_transaction_repository import InMemoryTransactionRepository
 
 app = FastAPI() 
@@ -33,12 +34,6 @@ def new_Deposit(id:str):
 #@app.get("/Balance")
 #def get_balance():
     #return Balance(-1)
-
-#A faire demain, faut JWT sur blackboard
-@app.post("User/connect")
-def connect_User():
-    TryConnectUser()
-    return
 @app.get("/User/{id}/Info")
 def get_user_info(id:str):
     allowed_info = {
@@ -50,7 +45,26 @@ def get_user_info(id:str):
 
 @app.post("/User/{id}/CreateAccount")
 def create_Account(id:str):
-    return Users.users[id].createAccount("Leugeu",id, 0)
+    accId = str(uuid.uuid4())
+    return Users.users[id].createAccount("Leugeu", accId, Repo, 0)
+
+@app.get("/Useraccount/{id}/info")
+def get_account_info(id:str):
+    return Users.users[id].getAccount(id, Repo)
 @app.get("/transaction/{id}")
 def get_transaction(id: str):
     return repo_transaction.getById(id)
+
+
+@app.post("/login")
+def login(payload: dict = Body(...)):
+    user_id = payload.get("id")
+
+    if user_id not in Users.users:
+        raise HTTPException(status_code=404, detail="User not found")
+    storedUser = Users.users[user_id]
+    return {"token": generate_token(storedUser)}
+
+@app.get("/me", response_model=None)
+def me(user=Depends(get_user)):
+    return user
